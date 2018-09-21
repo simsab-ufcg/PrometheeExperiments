@@ -1,0 +1,2 @@
+#!/bin/bash
+# This file runs all the experimental scenarios. In case of failures, return a non-zero exit code

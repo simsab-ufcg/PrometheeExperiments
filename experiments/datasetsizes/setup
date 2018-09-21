@@ -1,0 +1,11 @@
+#!/bin/bash
+# This file sets the experiment up. In case of failures, return a non-ze
+# exit code
+
+set -e
+
+#TODO download tiff generator
+#TODO build tiff generator
+#TODO generate input
+#TODO move input to the proper place
+#TODO code issues ..

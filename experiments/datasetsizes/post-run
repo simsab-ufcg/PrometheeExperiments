@@ -1,0 +1,4 @@
+#!/bin/bash
+# This file organizes the pipeline after the execution of the experiment.
+# For example, it may copy output data to the proper place and execute analysis
+# In case of failures, return a non-zero exit code

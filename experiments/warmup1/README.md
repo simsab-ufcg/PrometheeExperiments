@@ -1,0 +1,1 @@
+AEMMF.tif, 818.7Mb, 56786 x 41555, 1259 distinct elements

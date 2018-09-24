@@ -1,16 +1,17 @@
 #!/bin/bash
 
+. environment.conf
 cd execute
 
-git clone https://github.com/simsab-ufcg/Promethee2
+git clone $promethee_url
 cd Promethee2
 git checkout caja
-git reset --hard 5fe8ada65030c332f38c4fc53189d277e595b1c6
+git reset --hard $promethee_version
 
 cd ..
-git clone https://github.com/simsab-ufcg/TiffUtils
+git clone $tiff_utils_url
 cd TiffUtils
-git reset --hard ca906e0ab5478f4183b3af1d273136c9fdbf7c4e
+git reset --hard $tiff_utils_version
 g++ -std=c++14 tifGenerator.cpp -o tifGenerator -ltiff
 ./tifGenerator 4000 tifrandom.tif -R
 rm tifGenerator

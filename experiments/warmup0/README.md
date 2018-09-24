@@ -1,13 +1,13 @@
 ## Run
 
-To run this test in your machine, you must download the input file 'tifrandom.tif' through this (link) and place it in the folder 'execute/'. Then, run the following commands:
+To run this test in your machine, you should use the following commands:
 
 ```
 ./setup
 ./runtest
 ```
 
-Results will be inside the folder 'execute/'.
+Results will be inside folder 'execute/'.
 
 
 ## Information about input
@@ -15,4 +15,5 @@ Results will be inside the folder 'execute/'.
 1. File name: tifrandom.tif
 2. Size: 128Mb
 3. Dimensions: 4000 x 4000
-4. Distinct elements: 15940497
+4. Distinct elements: 15940497 (approximately)
+5. Origin: Randomly generated (once 'setup' is executed)

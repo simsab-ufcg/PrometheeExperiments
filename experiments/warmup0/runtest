@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# path = ""
-# plot_file_name = "plot-usages.r"
-# cpu_usage_file_name = "cpu-usage"
-# memory_usage_file_name = "memory-usage"
-# disk_usage_file_name = "disk-usage"
-# filter_procs_file_name = "filter-procs"
-
 rm execute/procs
 
 ./analysis/monitor/collect-cpu-usage.sh > execute/cpu-usage &

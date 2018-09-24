@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cd execute
+
+git clone https://github.com/simsab-ufcg/Promethee2
+cd Promethee2
+git checkout caja
+git reset --hard 5fe8ada65030c332f38c4fc53189d277e595b1c6
+
+cd ..
+g++ writeCriteriaInfo.cpp -o writeCriteriaInfo
+./writeCriteriaInfo > Promethee2/promethee/caja/playground/src/criteria
+rm writeCriteriaInfo
+
+mv tifrandom.tif Promethee2/promethee/caja/playground/src
+cd Promethee2/promethee/caja/playground/src/
+
+g++ -std=c++14 umbu.cpp -o umbu -ltiff
+g++ -std=c++14 merge.cpp -o merge -ltiff

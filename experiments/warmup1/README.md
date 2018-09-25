@@ -17,3 +17,4 @@ Make sure you have at least 900Mb of disk space available. Results will be insid
 3. Dimensions: 56786 x 41555
 4. Distinct elements: 1259
 5. Origin: INSA's transfer server (downloaded once 'setup' is executed)
+6. Environment: Quadcore, 4GB RAM

@@ -7,7 +7,7 @@ To run this test in your machine, you should use the following commands:
 ./runtest
 ```
 
-Results will be inside folder 'execute/'.
+Make sure you have at least 200Mb of disk space available. Results will be inside folder 'execute/'.
 
 
 ## Information about input

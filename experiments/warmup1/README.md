@@ -4,10 +4,10 @@ To run this test in your machine, you should use the following commands:
 
 ```
 ./setup
-./runtest
+./run
 ```
 
-Make sure you have at least 900Mb of disk space available. Results will be inside folder 'execute/'.
+Make sure you have at least 900Mb of disk space available. Results will be inside folder 'results/'.
 
 
 ## Information about input

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+. environment.conf
+cd execute
+
+git clone $promethee_url
+cd Promethee2
+git checkout caja
+git reset --hard $promethee_version
+
+cd ..
+g++ writeCriteriaInfo.cpp -o writeCriteriaInfo
+./writeCriteriaInfo $tif_name > Promethee2/promethee/caja/playground/src/criteria
+rm writeCriteriaInfo
+
+wget $input_url
+mv $tif_name Promethee2/promethee/caja/playground/src
+
+cd Promethee2/promethee/caja/playground/src/
+
+g++ -std=c++14 umbu.cpp -o umbu -ltiff
+g++ -std=c++14 merge.cpp -o merge -ltiff

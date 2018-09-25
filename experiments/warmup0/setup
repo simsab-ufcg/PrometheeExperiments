@@ -13,15 +13,15 @@ git clone $tiff_utils_url
 cd TiffUtils
 git reset --hard $tiff_utils_version
 g++ -std=c++14 tifGenerator.cpp -o tifGenerator -ltiff
-./tifGenerator 4000 tifrandom.tif -R
+./tifGenerator 4000 $tif_name -R
 rm tifGenerator
 
 cd ..
 g++ writeCriteriaInfo.cpp -o writeCriteriaInfo
-./writeCriteriaInfo > Promethee2/promethee/caja/playground/src/criteria
+./writeCriteriaInfo $tif_name > Promethee2/promethee/caja/playground/src/criteria
 rm writeCriteriaInfo
 
-mv TiffUtils/tifrandom.tif Promethee2/promethee/caja/playground/src
+mv TiffUtils/$tif_name Promethee2/promethee/caja/playground/src
 cd Promethee2/promethee/caja/playground/src/
 
 g++ -std=c++14 umbu.cpp -o umbu -ltiff

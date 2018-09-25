@@ -37,10 +37,6 @@ do
 	fi
 done
 
-
-
-###### echo $tiff_name 1 1 > $code_path/$umbu_caja_path/criteria
-
 cd $code_path/$umbu_caja_path
 
 g++ -std=c++14 umbu.cpp -o umbu -ltiff

@@ -1,23 +1,49 @@
 #!/bin/bash
-# This file sets the experiment up. In case of failures, return a non-ze
-# exit code
 
 source environment.conf
 
-set -e
+rm -rf $results_path
 
-git clone $promethee_url
+mkdir $code_path
+mkdir $results_path
 
-git clone $tiff_utils_url
+if [ ! -d $code_path/$promethee_path ]; then
+	git clone $promethee_url
+	mv $promethee_path $code_path
 
-cd $promethee_path
+	cd $code_path/$promethee_path
+	git checkout --detach $promethee_version
+	cd -
+fi
 
-git checkout --detach $promethee_version
+if [ ! -d $code_path/$tiff_utils_path ]; then
+	git clone $tiff_utils_url
+	mv $tiff_utils_path $code_path
+
+	cd $code_path/$tiff_utils_path
+	git checkout --detach $tiff_utils_version
+	cd -
+fi
+
+for (( i=0; i<${#test_cases[@]}; i++ ));
+do
+	if [ ! -e $code_path/$umbu_caja_path/${test_cases[i]}.tif ]; then
+		cd $code_path/$tiff_utils_path
+		g++ -std=c++14 tifGenerator.cpp -o tifGenerator -ltiff
+		./tifGenerator ${tiff_sizes[i]} ${test_cases[i]}.tif -R
+		rm tifGenerator	
+		cd -
+		mv $code_path/$tiff_utils_path/${test_cases[i]}.tif $code_path/$umbu_caja_path
+	fi
+done
 
 
 
-#TODO download tiff generator
-#TODO build tiff generator
-#TODO generate input
-#TODO move input to the proper place
-#TODO code issues ..
+###### echo $tiff_name 1 1 > $code_path/$umbu_caja_path/criteria
+
+cd $code_path/$umbu_caja_path
+
+g++ -std=c++14 umbu.cpp -o umbu -ltiff
+g++ -std=c++14 merge.cpp -o merge -ltiff
+
+cd -

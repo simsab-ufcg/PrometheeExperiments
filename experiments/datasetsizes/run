@@ -2,7 +2,6 @@
 
 source environment.conf
 
-
 for (( i=0; i<${#test_cases[@]}; i++ ));
 do
     ./$analysis_path/collect-cpu-usage.sh > $analysis_path/cpu-usage${test_cases[i]} &
@@ -14,7 +13,6 @@ do
 
     ./run
     ls | grep out. | xargs -n 1 -P 4 rm
-
     cd -
 
     # Grep PID of all collect processes and kill them.

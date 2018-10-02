@@ -19,16 +19,13 @@ if [ ! -d $code_path/$tiff_utils_path ]; then
 	git --git-dir=$code_path/$tiff_utils_path/.git checkout --detach $tiff_utils_version
 fi
 
+make
+
 for (( i=0; i<${#test_cases[@]}; i++ ));
 do
 	if [ ! -e $code_path/$umbu_caja_path/${test_cases[i]}.tif ]; then
-		g++ -std=c++14 $code_path/$tiff_utils_path/tifGenerator.cpp -o $code_path/$tiff_utils_path/tifGenerator -ltiff
 		./$code_path/$tiff_utils_path/tifGenerator ${tiff_sizes[i]} ${test_cases[i]}.tif -R
-		
-		rm $code_path/$tiff_utils_path/tifGenerator
 		mv ${test_cases[i]}.tif $code_path/$umbu_caja_path
 	fi
 done
 
-g++ -std=c++14 $code_path/$umbu_caja_path/umbu.cpp -o $code_path/$umbu_caja_path/umbu -ltiff
-g++ -std=c++14 $code_path/$umbu_caja_path/merge.cpp -o $code_path/$umbu_caja_path/merge -ltiff

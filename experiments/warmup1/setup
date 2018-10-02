@@ -13,12 +13,11 @@ if [ ! -d $code_path/$promethee_path ]; then
 	git --git-dir=$code_path/$promethee_path/.git checkout --detach $promethee_version
 fi
 
+make
+
 if [ ! -e $code_path/$umbu_caja_path/$tiff_name ]; then
 	wget $input_url
 	mv $tiff_name $code_path/$umbu_caja_path
 fi
 
 echo $tiff_name 1 1 > $code_path/$umbu_caja_path/criteria
-
-g++ -std=c++14 $code_path/$umbu_caja_path/umbu.cpp -o $code_path/$umbu_caja_path/umbu -ltiff
-g++ -std=c++14 $code_path/$umbu_caja_path/merge.cpp -o $code_path/$umbu_caja_path/merge -ltiff

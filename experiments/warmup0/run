@@ -2,7 +2,7 @@
 
 source environment.conf
 
-rm $analysis_path/procs
+rm -f $analysis_path/procs
 
 ./$analysis_path/collect-cpu-usage.sh > $analysis_path/cpu-usage &
 ./$analysis_path/collect-disk-usage.sh > $analysis_path/disk-usage &

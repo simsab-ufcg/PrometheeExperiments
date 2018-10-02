@@ -2,31 +2,23 @@
 
 source environment.conf
 
-
 for (( i=0; i<${#test_cases[@]}; i++ ));
 do
     ./$analysis_path/collect-cpu-usage.sh > $analysis_path/cpu-usage${test_cases[i]} &
     ./$analysis_path/collect-disk-usage.sh > $analysis_path/disk-usage${test_cases[i]} &
     ./$analysis_path/collect-memory-usage.sh > $analysis_path/memory-usage${test_cases[i]} &
-
-    cd $code_path/$umbu_caja_path
-    echo ${test_cases[i]}.tif 1 1 > criteria
     
-    ./run
+    ./$code_path/$promethee_path/run -um ${test_cases[i]}.tif 1 -type=$function_type -chunk=$chunk_size -ismax 1 > $analysis_path/procs${test_cases[i]}
 
     ls | grep out. | xargs -n 1 -P 4 rm
 
-    cd -
-
+    # Grep PID of all collect processes and kill them.
     ps -ef | grep ./collect | awk '{print $2}' | xargs -n 1 -P 4 kill -9
-
-    mv $code_path/$umbu_monitor_path/procs $analysis_path/procs${test_cases[i]}
 
     cd $analysis_path
     (cat procs${test_cases[i]} | grep "end") > filter-procs${test_cases[i]}
 
     Rscript plot-usages.r cpu-usage${test_cases[i]} memory-usage${test_cases[i]} disk-usage${test_cases[i]} filter-procs${test_cases[i]}
-
     cd -
 
     mv $analysis_path/usage_cpu.png $results_path/usage_cpu_${test_cases[i]}.png

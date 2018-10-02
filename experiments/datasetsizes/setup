@@ -8,38 +8,26 @@ mkdir $code_path
 mkdir $results_path
 
 if [ ! -d $code_path/$promethee_path ]; then
-	git clone $promethee_url
+	git clone $promethee_url -b $promethee_branch
 	mv $promethee_path $code_path
-
-	cd $code_path/$promethee_path
-	git checkout --detach $promethee_version
-	cd -
+	git --git-dir=$code_path/$promethee_path/.git checkout --detach $promethee_version
 fi
+
+make -C $code_path/$promethee_path
+rm -rf promethee/
 
 if [ ! -d $code_path/$tiff_utils_path ]; then
 	git clone $tiff_utils_url
 	mv $tiff_utils_path $code_path
-
-	cd $code_path/$tiff_utils_path
-	git checkout --detach $tiff_utils_version
-	cd -
+	git --git-dir=$code_path/$tiff_utils_path/.git checkout --detach $tiff_utils_version
 fi
 
 for (( i=0; i<${#test_cases[@]}; i++ ));
 do
-	if [ ! -e $code_path/$umbu_caja_path/${test_cases[i]}.tif ]; then
-		cd $code_path/$tiff_utils_path
-		g++ -std=c++14 tifGenerator.cpp -o tifGenerator -ltiff
-		./tifGenerator ${tiff_sizes[i]} ${test_cases[i]}.tif -R
-		rm tifGenerator	
-		cd -
-		mv $code_path/$tiff_utils_path/${test_cases[i]}.tif $code_path/$umbu_caja_path
+	if [ ! -e ${test_cases[i]}.tif ]; then
+		g++ -std=c++14 $code_path/$tiff_utils_path/tifGenerator.cpp -o $code_path/$tiff_utils_path/tifGenerator -ltiff
+		./$code_path/$tiff_utils_path/tifGenerator ${tiff_sizes[i]} ${test_cases[i]}.tif -R
+		
+		rm $code_path/$tiff_utils_path/tifGenerator
 	fi
 done
-
-cd $code_path/$umbu_caja_path
-
-g++ -std=c++14 umbu.cpp -o umbu -ltiff
-g++ -std=c++14 merge.cpp -o merge -ltiff
-
-cd -

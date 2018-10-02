@@ -11,27 +11,24 @@ do
 
     cd $code_path/$umbu_caja_path
     echo ${test_cases[i]}.tif 1 1 > criteria
-    
-    ./run
 
+    ./run
     ls | grep out. | xargs -n 1 -P 4 rm
 
     cd -
 
+    # Grep PID of all collect processes and kill them.
     ps -ef | grep ./collect | awk '{print $2}' | xargs -n 1 -P 4 kill -9
 
     mv $code_path/$umbu_monitor_path/procs $analysis_path/procs${test_cases[i]}
 
-    cd $analysis_path
-    (cat procs${test_cases[i]} | grep "end") > filter-procs${test_cases[i]}
+    (cat $analysis_path/procs${test_cases[i]} | grep "end") > $analysis_path/filter-procs${test_cases[i]}
 
-    Rscript plot-usages.r cpu-usage${test_cases[i]} memory-usage${test_cases[i]} disk-usage${test_cases[i]} filter-procs${test_cases[i]}
+    Rscript $analysis_path/plot-usages.r $analysis_path/cpu-usage${test_cases[i]} $analysis_path/memory-usage${test_cases[i]} $analysis_path/disk-usage${test_cases[i]} $analysis_path/filter-procs${test_cases[i]}
 
-    cd -
-
-    mv $analysis_path/usage_cpu.png $results_path/usage_cpu_${test_cases[i]}.png
-    mv $analysis_path/usage_cpu_mem.png $results_path/usage_cpu_mem_${test_cases[i]}.png
-    mv $analysis_path/usage_disk.png $results_path/usage_disk_${test_cases[i]}.png
-    mv $analysis_path/usage_mem.png $results_path/usage_mem_${test_cases[i]}.png
+    mv usage_cpu.png $results_path/usage_cpu_${test_cases[i]}.png
+    mv usage_cpu_mem.png $results_path/usage_cpu_mem_${test_cases[i]}.png
+    mv usage_disk.png $results_path/usage_disk_${test_cases[i]}.png
+    mv usage_mem.png $results_path/usage_mem_${test_cases[i]}.png
     mv $analysis_path/procs${test_cases[i]} $results_path/log_${test_cases[i]}.txt
 done

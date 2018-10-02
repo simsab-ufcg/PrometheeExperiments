@@ -9,24 +9,20 @@ rm $analysis_path/procs
 ./$analysis_path/collect-memory-usage.sh > $analysis_path/memory-usage &
 
 cd $code_path/$umbu_caja_path
-
 ./run
-
 cd -
 
+# Grep PID of all collect processes and kill them.
 ps -ef | grep ./collect | awk '{print $2}' | xargs -n 1 -P 4 kill -9
 
 mv $code_path/$umbu_monitor_path/procs $analysis_path/
 
-cd $analysis_path
-(cat procs | grep "end") > filter-procs
+(cat $analysis_path/procs | grep "end") > $analysis_path/filter-procs
 
-Rscript plot-usages.r cpu-usage memory-usage disk-usage filter-procs
+Rscript $analysis_path/plot-usages.r $analysis_path/cpu-usage $analysis_path/memory-usage $analysis_path/disk-usage $analysis_path/filter-procs
 
-cd -
-
-mv $analysis_path/usage_cpu.png $results_path
-mv $analysis_path/usage_cpu_mem.png $results_path
-mv $analysis_path/usage_disk.png $results_path
-mv $analysis_path/usage_mem.png $results_path
+mv usage_cpu.png $results_path/usage_cpu.png
+mv usage_cpu_mem.png $results_path/usage_cpu_mem.png
+mv usage_disk.png $results_path/usage_disk.png
+mv usage_mem.png $results_path/usage_mem.png
 mv $analysis_path/procs $results_path/log.txt

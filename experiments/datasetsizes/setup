@@ -1,11 +1,31 @@
 #!/bin/bash
-# This file sets the experiment up. In case of failures, return a non-ze
-# exit code
 
-set -e
+source environment.conf
 
-#TODO download tiff generator
-#TODO build tiff generator
-#TODO generate input
-#TODO move input to the proper place
-#TODO code issues ..
+rm -rf $results_path
+
+mkdir $code_path
+mkdir $results_path
+
+if [ ! -d $code_path/$promethee_path ]; then
+	git clone $promethee_url -b $promethee_branch
+	mv $promethee_path $code_path
+	git --git-dir=$code_path/$promethee_path/.git checkout --detach $promethee_version
+fi
+
+if [ ! -d $code_path/$tiff_utils_path ]; then
+	git clone $tiff_utils_url
+	mv $tiff_utils_path $code_path
+	git --git-dir=$code_path/$tiff_utils_path/.git checkout --detach $tiff_utils_version
+fi
+
+make
+
+for (( i=0; i<${#test_cases[@]}; i++ ));
+do
+	if [ ! -e $code_path/$umbu_caja_path/${test_cases[i]}.tif ]; then
+		./$code_path/$tiff_utils_path/tifGenerator ${tiff_sizes[i]} ${test_cases[i]}.tif -R
+		mv ${test_cases[i]}.tif $code_path/$umbu_caja_path
+	fi
+done
+

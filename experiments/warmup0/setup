@@ -1,28 +1,29 @@
 #!/bin/bash
 
-. environment.conf
-cd execute
+source environment.conf
 
-git clone $promethee_url
-cd Promethee2
-git checkout caja
-git reset --hard $promethee_version
+rm -rf $results_path
 
-cd ..
-git clone $tiff_utils_url
-cd TiffUtils
-git reset --hard $tiff_utils_version
-g++ -std=c++14 tifGenerator.cpp -o tifGenerator -ltiff
-./tifGenerator 4000 tifrandom.tif -R
-rm tifGenerator
+mkdir $code_path
+mkdir $results_path
 
-cd ..
-g++ writeCriteriaInfo.cpp -o writeCriteriaInfo
-./writeCriteriaInfo > Promethee2/promethee/caja/playground/src/criteria
-rm writeCriteriaInfo
+if [ ! -d $code_path/$promethee_path ]; then
+	git clone $promethee_url -b $promethee_branch
+	mv $promethee_path $code_path
+	git --git-dir=$code_path/$promethee_path/.git checkout --detach $promethee_version
+fi
 
-mv TiffUtils/tifrandom.tif Promethee2/promethee/caja/playground/src
-cd Promethee2/promethee/caja/playground/src/
+if [ ! -d $code_path/$tiff_utils_path ]; then
+	git clone $tiff_utils_url
+	mv $tiff_utils_path $code_path
+	git --git-dir=$code_path/$tiff_utils_path/.git checkout --detach $tiff_utils_version
+fi
 
-g++ -std=c++14 umbu.cpp -o umbu -ltiff
-g++ -std=c++14 merge.cpp -o merge -ltiff
+make
+
+if [ ! -e $code_path/$umbu_caja_path/$tiff_name ]; then
+	./$code_path/$tiff_utils_path/tifGenerator 4000 $tiff_name -R
+	mv $tiff_name $code_path/$umbu_caja_path
+fi
+
+echo $tiff_name 1 1 > $code_path/$umbu_caja_path/criteria

@@ -16,9 +16,9 @@ make -C $code_path/$promethee_path
 for (( i=0; i<${#crit_names[@]}; i++ ));
 do
 	if [ ! -e ${crit_names[i]}.tif ]; then
+		echo Downloading file ${crit_names[i]}.tif
 		wget ${crit_urls[i]}
 	fi
 
-	#-um random.tif $criterion_weight -type=$function_type -chunk=$chunk_size $flag_max $p_parameter $q_parameter
-	echo -um ${crit_names[i]}.tif ${crit_weight[i]} -type=${crit_func_type[i]} -chunk=${crit_chunk_size[i]} ${crit_ismax[i]} ${crit_p_parameter[i]} ${crit_q_parameter[i]} >> criteria 
+	echo -um ${crit_names[i]}.tif ${crit_weights[i]} -type=${crit_func_type[i]} -chunk=${crit_chunk_size[i]} ${crit_ismax[i]} ${crit_p_parameter[i]} ${crit_q_parameter[i]} >> criteria 
 done

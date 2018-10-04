@@ -12,6 +12,7 @@ fi
 
 rm -f criteria
 make -C $code_path/$promethee_path
+make
 
 for (( i=0; i<${#crit_names[@]}; i++ ));
 do

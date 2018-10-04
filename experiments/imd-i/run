@@ -3,3 +3,12 @@
 source environment.conf
 
 cat criteria | xargs -n 7 -P 4 ./$code_path/$promethee_path/run
+
+file_names=""
+
+for (( i=0; i<${#crit_names[@]}; i++ ));
+do
+	file_names="${file_names} out.${crit_names[i]}.tif"
+done
+
+./$code_path/$promethee_path/$umbu_caja_path/merge$file_names

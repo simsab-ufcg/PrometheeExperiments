@@ -1,0 +1,2 @@
+-um VPR10.tif -type=linearWithIndifference -chunk=20000000 0.07118 -0.12674
+-um VVAAmm.tif -type=linearWithIndifference -chunk=20000000 0.11555 -0.14714

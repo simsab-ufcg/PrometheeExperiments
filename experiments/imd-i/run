@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#cat criteria | xargs -n 6 -P 4 ./$code_path/$promethee_path/run
+#cat criteria | ./$code_path/$promethee_path/run
+
+cat criteria | xargs -n 6 -P 4 ./$code_path/$promethee_path/run

@@ -2,7 +2,7 @@
 
 source environment.conf
 
-cat criteria | xargs -n 7 -P 4 ./$code_path/$promethee_path/run
+cat criteria | xargs -n 8 -P 4 ./$code_path/$promethee_path/run
 
 file_names=""
 
